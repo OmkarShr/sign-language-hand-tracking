@@ -1,0 +1,22 @@
+{
+  "vendor/pytorch_i3d.py": {
+    "url": "https://raw.githubusercontent.com/dxli94/WLASL/ac00e6be631c1a2a486621b65f202219f3964d6b/code/I3D/pytorch_i3d.py",
+    "bytes": 14421,
+    "sha256": "1b35b81b4dc8ea6ef55c87063515d058761fd25caf9381bad3dcc0ed5f3c3de5"
+  },
+  "assets/wlasl_class_list.txt": {
+    "url": "https://raw.githubusercontent.com/dxli94/WLASL/ac00e6be631c1a2a486621b65f202219f3964d6b/code/I3D/preprocess/wlasl_class_list.txt",
+    "bytes": 22907,
+    "sha256": "2c131fb7f052340aa7ae8579c8cae9746028740b8e62efeb957a7790dbefcf4a"
+  },
+  "assets/wlasl2000_i3d_state_dict.bin": {
+    "url": "https://huggingface.co/raghuhasan/asl2000-i3d/resolve/80314a781e5b611f66f23483fd78bc5eba622420/pytorch_model.bin",
+    "bytes": 57519914,
+    "sha256": "af8964c94467318e1212528fe5cf892b8f9e380c6546081f0215bbcf93312b39"
+  },
+  "assets/model_card_config.json": {
+    "url": "https://huggingface.co/raghuhasan/asl2000-i3d/resolve/80314a781e5b611f66f23483fd78bc5eba622420/config.json",
+    "bytes": 162,
+    "sha256": "5eeaf4a8415dc28bc4a37a564bde39b2e63fb67c6fc8e81c83485b194dfda504"
+  }
+}

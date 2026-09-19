@@ -1,0 +1,6 @@
+numpy<2
+opencv-contrib-python==4.10.0.84
+mediapipe==0.10.21
+pyserial==3.5
+pytest==8.3.5
+# CUDA torch 2.3.1+cu121 is inherited from the federated-ft conda environment.
