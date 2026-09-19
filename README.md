@@ -66,4 +66,64 @@ The included 87-frame, 324x244 grayscale recording produced:
 | None | 18/87 | 20.69% |
 | Histogram equalization | 32/87 | 36.78% |
 
-The equalized run had a mean handedness confidence of 96.98%. Motion blur, hand overlap, grayscale input, and low camera resolution still limit detection.
+The equalized run had a mean handedness confidence of 96.98%. This is confidence conditioned on a detection, not landmark or recognition accuracy. Motion blur, hand overlap, grayscale input, and low camera resolution still limit detection.
+
+## ASL realtime feasibility branch
+
+Branch `experiment/asl-realtime-feasibility` adds an explicitly experimental pipeline for:
+
+- replaying the real 324x244 HM01B0 sequence or reading the existing serial JPEG protocol;
+- measuring MediaPipe hand coverage under four preprocessing modes;
+- running a pinned WLASL-2000 I3D isolated-word model on the RTX 4060;
+- suppressing user-facing output when too little of the window contains detected hands;
+- producing auditable JSON reports with source and model hashes.
+
+This is **isolated ASL gloss recognition, not continuous translation**. The bundled camera recording has no ASL ground-truth label, so its model outputs cannot be reported as accuracy.
+
+Create the separate environment without changing the original `.venv`:
+
+```bash
+/home/omkar/miniconda3/envs/federated-ft/bin/python -m venv --system-site-packages .venv-asl
+.venv-asl/bin/python -m pip install -r requirements-asl.txt
+.venv-asl/bin/python setup_asl_assets.py
+```
+
+`setup_asl_assets.py` downloads the pinned model/code assets and rejects any SHA-256 mismatch. The checkpoint is intentionally not committed; its source and digest are recorded in `spikes/001-asl-i3d-camera/assets/provenance.json`.
+
+Run the recorded-camera benchmark:
+
+```bash
+.venv-asl/bin/python benchmark_camera.py \
+  --output experiments/manual-run/report.json
+```
+
+Run realtime replay:
+
+```bash
+.venv-asl/bin/python realtime_asl.py --source json
+```
+
+Run a connected HM01B0 board on Linux:
+
+```bash
+.venv-asl/bin/python realtime_asl.py --source serial --port /dev/ttyACM0
+```
+
+The default safety gate requires at least 50% of frames in a recognition window to contain a MediaPipe hand detection. `top5` and `diagnostic_candidate_only` are experiment telemetry, **not translations**. A candidate is emitted only after repeated observable windows and is debounced, but it must still be validated against labeled HM01B0 recordings before display to a user.
+
+### Live test checklist
+
+1. Connect the HM01B0 board by USB and identify its port:
+   ```bash
+   python -c 'from serial.tools import list_ports; [print(p.device, p.description) for p in list_ports.comports()]'
+   ```
+2. Start the stream, replacing the port if necessary:
+   ```bash
+   .venv-asl/bin/python realtime_asl.py \
+     --source serial --port /dev/ttyACM0 --headless
+   ```
+3. Perform one supported isolated ASL sign at a time, return to a neutral pose between signs, and retain the JSON-lines output for analysis.
+
+The program prints one JSON object per captured frame. `hands` reports MediaPipe detections. An `isolated_gloss_prediction` object appears when a full temporal window is available. Use Ctrl+C to stop.
+
+The current live command does not draw a GUI overlay or translate sentences. It measures whether serial capture, hand visibility, GPU inference and cautious isolated-gloss candidates can operate together.

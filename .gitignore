@@ -12,3 +12,13 @@ hand_landmarker.task
 /hand_detection*.avi
 /hand_detection*.mp4
 /hand_detection_report.json
+
+# ASL feasibility environment and generated/private experiment artifacts.
+.venv-asl/
+experiments/
+benchmark_*.log
+spikes/**/assets/*.bin
+spikes/**/assets/model_card_config.json
+spikes/**/assets/wlasl_class_list.txt
+spikes/**/validation_samples/
+spikes/**/vendor/
