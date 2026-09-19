@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.py[cod]
+.DS_Store
+
+# Captured datasets and archives can be large.
+HM01B0_images/
+HM01B0_images.zip
+
+# Downloaded model and generated analysis outputs.
+hand_landmarker.task
+/hand_detection*.avi
+/hand_detection*.mp4
+/hand_detection_report.json

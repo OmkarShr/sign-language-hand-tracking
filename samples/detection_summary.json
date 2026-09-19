@@ -1,0 +1,12 @@
+{
+  "input_resolution": [324, 244],
+  "total_frames": 87,
+  "frames_with_hands": 32,
+  "detection_rate_percent": 36.78,
+  "frames_with_one_hand": 30,
+  "frames_with_two_hands": 2,
+  "mean_handedness_confidence": 0.9698,
+  "preprocessing": "histogram_equalization",
+  "minimum_confidence": 0.3,
+  "fps": 8.6
+}
